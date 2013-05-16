@@ -1,0 +1,7 @@
+{
+    "installOptions" : {
+        "installDependencies" : true,
+        "installFromRepository" : true,
+        "libraryPath" : "/Users/deathicide/R/x86_64-apple-darwin11.4.2-library/2.15"
+    }
+}

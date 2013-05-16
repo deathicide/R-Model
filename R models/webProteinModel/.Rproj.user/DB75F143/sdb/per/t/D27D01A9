@@ -1,0 +1,16 @@
+{
+    "contents" : "library(shiny)\n\n# Define UI for web protein modelling\nshinyUI(pageWithSidebar(\n  \n  # Application title\n  headerPanel(\"Protein\"),\n  \n  #make a panel with a dropdown box containing choices for models\n  sidebarPanel(\n    selectInput(\"inputType\",\"Select input:\",\n                list(\"hOAT1\" = \"hOAT1\",\n                     \"hOAT2\" = \"hOAT2\",\n                     \"hOAT3\" = \"hOAT3\",\n                     \"CeOAT\" = \"CeOAT\",\n                     \"Select Data\" = \"UserData\")\n                )\n    ),\n  \n  #write the main panel\n  mainPanel(\n    h3(textOutput(\"caption\"))\n    )\n))\n",
+    "created" : 1360172984994.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4028396443",
+    "id" : "D27D01A9",
+    "lastKnownWriteTime" : 1360174524,
+    "path" : "~/Documents/School Work/Grad School/Spring 2013/Research/R models/webProteinModel/ui.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

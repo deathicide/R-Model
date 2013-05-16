@@ -1,0 +1,16 @@
+{
+    "contents" : "library(shiny)\n\nshinyServer(function(input, output) {\n  \n  #put a title above the graphs that changes when the user selects an item\n  #from the dropdown menu\n  formulaText <- reactive(function() {\n    paste(\"Model ~\", input$inputType)\n  })\n  # Return the formula text for printing as a caption\n  output$caption <- reactiveText(function() {\n    formulaText()\n  })\n  \n  \n  \n})\n",
+    "created" : 1360173116780.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3897615893",
+    "id" : "ED5A14C5",
+    "lastKnownWriteTime" : 1360175244,
+    "path" : "~/Documents/School Work/Grad School/Spring 2013/Research/R models/webProteinModel/server.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
