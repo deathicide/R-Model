@@ -163,6 +163,22 @@ TMD11Rotendpts <- fitLine(lacyTMD11Rot)
 TMD12Rotendpts <- fitLine(lacyTMD12Rot)
 }
 
+#flip the rotated endpts if needed
+{
+  TMD1Rotendpts <- fixendpts(TMD1endpts,TMD1Rotendpts)
+  TMD2Rotendpts <- fixendpts(TMD2endpts,TMD2Rotendpts)
+  TMD3Rotendpts <- fixendpts(TMD3endpts,TMD3Rotendpts)
+  TMD4Rotendpts <- fixendpts(TMD4endpts,TMD4Rotendpts)
+  TMD5Rotendpts <- fixendpts(TMD5endpts,TMD5Rotendpts)
+  TMD6Rotendpts <- fixendpts(TMD6endpts,TMD6Rotendpts)
+  TMD7Rotendpts <- fixendpts(TMD7endpts,TMD7Rotendpts)
+  TMD8Rotendpts <- fixendpts(TMD8endpts,TMD8Rotendpts)
+  TMD9Rotendpts <- fixendpts(TMD9endpts,TMD9Rotendpts)
+  TMD10Rotendpts <- fixendpts(TMD10endpts,TMD10Rotendpts)
+  TMD11Rotendpts <- fixendpts(TMD11endpts,TMD11Rotendpts)
+  TMD12Rotendpts <- fixendpts(TMD12endpts,TMD12Rotendpts)
+}
+
 #plot the rotated
 {
 plotTMD(lacyTMD1Rot,TMD1Rotendpts,lacyPosAtoms,T,"blue")

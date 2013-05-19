@@ -34,6 +34,27 @@ fitLine <- function(X){
   return(rbind(meanX + t[1]*dirVector, meanX + t[2]*dirVector))
 }
 
+#fix for endpts being rotated oppositely
+#endpts is the non rotated 2x3 matrix of endpts
+#rotEndpts is the 2x3 matrix of endpts from rotateFromTo function
+#returns the rotEndpts corrected: based on first row of endpts - both inputs should have the same first row
+fixendpts <- function(endpts,rotEndpts){
+  tol <- 0.0001
+  temp <- matrix(ncol=3,nrow=2)
+  if(!(normVec(rotEndpts[1,]) > (normVec(endpts[1,]) - tol) && normVec(rotEndpts[1,]) < (normVec(endpts[1,]) + tol))){
+    temp[1,] <- rotEndpts[2,]
+    temp[2,] <- rotEndpts[1,]
+  }
+  else if(!(normVec(rotEndpts[2,]) > (normVec(endpts[2,]) - tol) && normVec(rotEndpts[2,]) < (normVec(endpts[2,]) + tol))){
+    temp <- rotEndpts
+  }
+  else{
+    temp <- rotEndpts
+  }
+  
+  return(temp)
+}
+
 #returns the norm of a vector
 #V is in the form c(V_x,V_y,V_z) a 1x3 vector
 #V is the vector to norm
