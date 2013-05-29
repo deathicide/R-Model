@@ -38,18 +38,42 @@ fitLine <- function(X){
 #endpts is the non rotated 2x3 matrix of endpts
 #rotEndpts is the 2x3 matrix of endpts from rotateFromTo function
 #returns the rotEndpts corrected: based on first row of endpts - both inputs should have the same first row
-fixendpts <- function(endpts,rotEndpts){
+fixRotendpts <- function(endpts,rotEndpts){
   tol <- 0.0001
   temp <- matrix(ncol=3,nrow=2)
   if(!(normVec(rotEndpts[1,]) > (normVec(endpts[1,]) - tol) && normVec(rotEndpts[1,]) < (normVec(endpts[1,]) + tol))){
     temp[1,] <- rotEndpts[2,]
     temp[2,] <- rotEndpts[1,]
   }
-  else if(!(normVec(rotEndpts[2,]) > (normVec(endpts[2,]) - tol) && normVec(rotEndpts[2,]) < (normVec(endpts[2,]) + tol))){
-    temp <- rotEndpts
-  }
   else{
     temp <- rotEndpts
+  }
+  
+  return(temp)
+}
+
+#shift tmds that flip to the outside of the protein
+#based on conservation fitLine data
+#rotTMD is the rotated tmd from rotateFromTo
+#rotendpts is the fit rotated endpts after using fixRotendpts
+#endpts is the initial fit after using reorientTMDendpts
+#returns 2x3 matrix of endpts with corrected conserved end behavior
+fixRotTMD <- function(rotTMD,rotendpts,endpts){
+  tol <- 0.0001
+  #if the second point in the rotendpts matches the first point in the endpts
+  #shift the data in rotTMD so the first points match
+  if((normVec(endpts[1,]) + tol > normVec(rotendpts[2,]) && (normVec(endpts[1,]) - tol < normVec(rotendpts[2,])))){
+    change <- endpts[1,] - rotendpts[2,]
+    temp <- apply(rotTMD,1,function(x) cbind(x[1]+change[1],x[2]+change[2],x[3]+change[3]))
+  }
+  #if the first point in the rotendpts matches the second point in the endpts
+  #shift the data in rotTMD so the second points match
+  else if ((normVec(endpts[2,]) + tol > normVec(rotendpts[1,])) && (normVec(endpts[2,]) - tol < normVec(rotendpts[1,]))){
+    change <- endpts[2,] - rotendpts[1,]
+    temp <- apply(rotTMD,1,function(x) cbind(x[1]+change[1],x[2]+change[2],x[3]+change[3]))
+  }
+  else{
+    temp <- rotTMD
   }
   
   return(temp)
@@ -128,8 +152,8 @@ reorientTMDendpts <- function(tmdendpts,tmdNum,domainData,totalData){
 #from and to needs to be in the format matrix(c(x[i],y[i],z[i]),ncol=3)
 #tolerance is the rotational tolerance to fit to based on the angle between the vectors - optional defalult:0.001
 #returns a vector of x,y,z points with the initial endpoint conserved
-rotateFromTo <- function(from,to,tolerance) {
-  if(missing(tolerance)) {tolerance <- 0.001}
+rotateFromTo <- function(from,to,tolerance=0.001) {
+  #if(missing(tolerance)) {tolerance <- 0.001}
   
   #find the ini endpts
   fromendpts <- fitLine(from)
