@@ -62,15 +62,15 @@ fixRotTMD <- function(rotTMD,rotendpts,endpts){
   tol <- 0.0001
   #if the second point in the rotendpts matches the first point in the endpts
   #shift the data in rotTMD so the first points match
-  if((normVec(endpts[1,]) + tol > normVec(rotendpts[2,]) && (normVec(endpts[1,]) - tol < normVec(rotendpts[2,])))){
-    change <- endpts[1,] - rotendpts[2,]
-    temp <- apply(rotTMD,1,function(x) cbind(x[1]+change[1],x[2]+change[2],x[3]+change[3]))
+  if(isTRUE(all.equal(normVec(endpts[1,]),normVec(rotendpts[2,]),tolerance = tol))){
+    change <- rotendpts[1,] - endpts[1,]
+    temp <- t(apply(rotTMD,1,function(x) cbind(x[1]-change[1],x[2]-change[2],x[3]-change[3])))
   }
   #if the first point in the rotendpts matches the second point in the endpts
   #shift the data in rotTMD so the second points match
-  else if ((normVec(endpts[2,]) + tol > normVec(rotendpts[1,])) && (normVec(endpts[2,]) - tol < normVec(rotendpts[1,]))){
-    change <- endpts[2,] - rotendpts[1,]
-    temp <- apply(rotTMD,1,function(x) cbind(x[1]+change[1],x[2]+change[2],x[3]+change[3]))
+  else if (isTRUE(all.equal(normVec(endpts[2,]),normVec(rotendpts[1,]),tolerance = tol))){
+    change <- rotendpts[2,] - endpts[2,]
+    temp <- t(apply(rotTMD,1,function(x) cbind(x[1]-change[1],x[2]-change[2],x[3]-change[3])))
   }
   else{
     temp <- rotTMD
@@ -193,6 +193,16 @@ rotateFromTo <- function(from,to,tolerance=0.001) {
   
   #shift the rotated from tmd back to the original ini position
   return(matrix(c(fromCenter[,1] + fromendpts[1,1],fromCenter[,2] + fromendpts[1,2],fromCenter[,3] + fromendpts[1,3]),ncol=3))
+}
+
+#scales the coil regions to create a continuous molecule
+#domainNums is an atomic with tmdnum start end with the values of the atoms start
+# and end points for the tmd
+#totalAtoms is the complete data frame of all the molecule
+#tmdNum is the number of the tmd that comes after the coil to be scaled
+#rotTMD is the rotated data output from rotateFromTo - needed to scale correctly
+scaleCoil <- function(domainNums,totalAtoms,tmdNum,rotTMD){
+  
 }
 
 #write out a tmd to a file with the extra information
